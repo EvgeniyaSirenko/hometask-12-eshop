@@ -60,7 +60,7 @@ public class OrderDAO {
 			preparedStatement.setInt(1, order.getItemId());
 			preparedStatement.setInt(2, order.getAmount());
 			preparedStatement.setInt(3, order.getCartId());
-			preparedStatement.setInt(5, order.getId());
+			preparedStatement.setInt(4, order.getId());
 			preparedStatement.executeUpdate();
 			return Order.builder()
 					.id(order.getId())

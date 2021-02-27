@@ -26,8 +26,8 @@ class CartDAOTest {
 	
 	@AfterAll
 	public static void deleteData() {
-		users.forEach(user -> UserDAO.delete(user.getId()));
 		carts.forEach(cart -> CartDAO.delete(cart.getId()));
+		users.forEach(user -> UserDAO.delete(user.getId()));
 	}
 	
 	@Test

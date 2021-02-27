@@ -31,10 +31,10 @@ class OrderDAOTest {
 	
 	@AfterAll
 	public static void deleteData() {
+		orders.forEach(order -> OrderDAO.delete(order.getId()));
+		carts.forEach(cart -> CartDAO.delete(cart.getId()));
 		items.forEach(item -> ItemDAO.delete(item.getId()));
 		users.forEach(user -> UserDAO.delete(user.getId()));
-		carts.forEach(cart -> CartDAO.delete(cart.getId()));
-		orders.forEach(order -> OrderDAO.delete(order.getId()));
 	}
 	
 	@Test
@@ -141,21 +141,42 @@ class OrderDAOTest {
 				.build();
 		Order savedOrder = OrderDAO.create(testOrder);
 		orders.add(savedOrder);
-		
+		Item updateItem = Item.builder()
+				.name("updateName")
+				.itemCode("222222")
+				.price(22)
+				.initPrice(22)
+				.build();
+		Item readyForUpdatedItem = ItemDAO.create(updateItem);
+		items.add(readyForUpdatedItem);
+		User updateUser = User.builder()
+				.login("updateLogin")
+				.password("updatePassword")
+				.firstName("updateFirstName")
+				.lastName("updateLastName")
+				.build();
+		User readyForUpdatedUser = UserDAO.create(updateUser);
+		users.add(readyForUpdatedUser);
+		Cart readyForUpdateCart = Cart.builder()
+				.id(savedCart.getId())
+				.userId(readyForUpdatedUser.getId())
+				.creationTime(2L)
+				.status(Cart.Status.CLOSED)
+				.build();
+		Cart updatedCart = CartDAO.update(readyForUpdateCart);
 		Order readyForUpdate = Order.builder()
 				.id(savedOrder.getId())
-				.itemId(111333)
+				.itemId(readyForUpdatedItem.getId())
 				.amount(2)
-				.cartId(2)
+				.cartId(updatedCart.getId())
 				.build();
 		Order updatedOrder = OrderDAO.update(readyForUpdate);
-		orders.add(updatedOrder);
 		Optional<Order> foundOrder = OrderDAO.findOrderById(updatedOrder.getId());
 		if (foundOrder.isPresent()) {
 			assertNotEquals(savedOrder.getAmount(), foundOrder.get().getAmount());
 			assertEquals(savedOrder.getId(), foundOrder.get().getId());
 		} else {
-			fail("Updated order was not found");
+			fail("Updated cart was not found");
 		}
 	}
 	
