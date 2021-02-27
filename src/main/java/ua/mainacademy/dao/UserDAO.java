@@ -12,7 +12,7 @@ import static java.util.Objects.isNull;
 
 public class UserDAO {
 	
-	public static User save(String login, String password, String firstName, String lastName) {
+	public static User create(User user) {
 		String sql = "" +
 				"INSERT INTO users(login, password, first_name, last_name) " +
 				"VALUES(?,?,?,?)";
@@ -24,10 +24,10 @@ public class UserDAO {
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				PreparedStatement sequenceStatement = connection.prepareStatement(sequenceSql)
 		) {
-			preparedStatement.setString(1, login);
-			preparedStatement.setString(2, password);
-			preparedStatement.setString(3, firstName);
-			preparedStatement.setString(4, lastName);
+			preparedStatement.setString(1, user.getLogin());
+			preparedStatement.setString(2, user.getPassword());
+			preparedStatement.setString(3, user.getFirstName());
+			preparedStatement.setString(4, user.getLastName());
 			preparedStatement.executeUpdate();
 			ResultSet resultSet = sequenceStatement.executeQuery();
 			Integer id = null;
@@ -36,19 +36,19 @@ public class UserDAO {
 			}
 			return User.builder()
 					.id(id)
-					.login(login)
-					.password(password)
-					.firstName(firstName)
-					.lastName(lastName)
+					.login(user.getLogin())
+					.password(user.getPassword())
+					.firstName(user.getFirstName())
+					.lastName(user.getLastName())
 					.build();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		throw new RuntimeException(String.format("User with login %s and password %s was not created", login, password));
+		throw new RuntimeException(String.format("User with login %s and password %s was not created", user.getLogin(), user.getPassword()));
 	}
 	
-	public static User update (Integer id, String login, String password, String firstName, String lastName) {
-		if(isNull(id)) {
+	public static User update (User user) {
+		if(isNull(user.getId())) {
 			throw new RuntimeException("id is null, update is impossible");
 		}
 		String sql = "" +
@@ -59,26 +59,26 @@ public class UserDAO {
 				Connection connection = ConnectionToDB.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		) {
-			preparedStatement.setString(1, login);
-			preparedStatement.setString(2, password);
-			preparedStatement.setString(3, firstName);
-			preparedStatement.setString(4, lastName);
-			preparedStatement.setInt(5, id);
+			preparedStatement.setString(1, user.getLogin());
+			preparedStatement.setString(2, user.getPassword());
+			preparedStatement.setString(3, user.getFirstName());
+			preparedStatement.setString(4, user.getLastName());
+			preparedStatement.setInt(5, user.getId());
 			preparedStatement.executeUpdate();
 			return User.builder()
-					.id(id)
-					.login(login)
-					.password(password)
-					.firstName(firstName)
-					.lastName(lastName)
+					.id(user.getId())
+					.login(user.getLogin())
+					.password(user.getPassword())
+					.firstName(user.getFirstName())
+					.lastName(user.getLastName())
 					.build();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		throw new RuntimeException(String.format("User with id %d was not updated", id));
+		throw new RuntimeException(String.format("User with id %d was not updated", user.getId()));
 	}
 	
-	public static Optional<User> findById (Integer id) {
+	public static Optional<User> findUserById (Integer id) {
 		String sql = "" +
 				"SELECT * FROM users " +
 				"WHERE id=?";
