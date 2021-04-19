@@ -29,13 +29,12 @@ public class ItemDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-				Item item = Item.builder()
-						.id(resultSet.getInt("id"))
-						.name(resultSet.getString("name"))
-						.itemCode(resultSet.getString("item_code"))
-						.price(resultSet.getInt("price"))
-						.initPrice(resultSet.getInt("init_price"))
-						.build();
+				Item item = new Item();
+				item.setId(resultSet.getInt("id"));
+				item.setName(resultSet.getString("name"));
+				item.setItemCode(resultSet.getString("item_code"));
+				item.setPrice(resultSet.getInt("price"));
+				item.setInitPrice(resultSet.getInt("init_price"));
 				return Optional.of(item);
 			}
 		} catch (SQLException e) {
@@ -65,13 +64,13 @@ public class ItemDAO {
 			while (resultSet.next()) {
 				id = resultSet.getInt(1);
 			}
-			return Item.builder()
-					.id(id)
-					.name(item.getName())
-					.itemCode(item.getItemCode())
-					.price(item.getPrice())
-					.initPrice(item.getInitPrice())
-					.build();
+			Item savedItem = new Item();
+			savedItem.setId(id);
+			savedItem.setName(item.getName());
+			savedItem.setItemCode(item.getItemCode());
+			savedItem.setPrice(item.getPrice());
+			savedItem.setInitPrice(item.getInitPrice());
+			return savedItem;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -95,13 +94,12 @@ public class ItemDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-				Item item = Item.builder()
-						.id(resultSet.getInt("id"))
-						.name(resultSet.getString("name"))
-						.itemCode(resultSet.getString("item_code"))
-						.price(resultSet.getInt("price"))
-						.initPrice(resultSet.getInt("init_price"))
-						.build();
+				Item item = new Item();
+				item.setId(resultSet.getInt("id"));
+				item.setName(resultSet.getString("name"));
+				item.setItemCode(resultSet.getString("item_code"));
+				item.setPrice(resultSet.getInt("price"));
+				item.setInitPrice(resultSet.getInt("init_price"));
 				result.add(item);
 			}
 		} catch (SQLException e) {
@@ -128,7 +126,13 @@ public class ItemDAO {
 			preparedStatement.setInt(4, item.getInitPrice());
 			preparedStatement.setInt(5, item.getId());
 			preparedStatement.executeUpdate();
-			return item;
+			Item savedItem = new Item();
+			savedItem.setId(item.getId());
+			savedItem.setName(item.getName());
+			savedItem.setItemCode(item.getItemCode());
+			savedItem.setPrice(item.getPrice());
+			savedItem.setInitPrice(item.getInitPrice());
+			return savedItem;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

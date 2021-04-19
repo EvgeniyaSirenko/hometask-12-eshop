@@ -34,21 +34,23 @@ public class UserDAO {
 			while (resultSet.next()) {
 				id = resultSet.getInt(1);
 			}
-			return User.builder()
-					.id(id)
-					.login(user.getLogin())
-					.password(user.getPassword())
-					.firstName(user.getFirstName())
-					.lastName(user.getLastName())
-					.build();
+			User savedUser = new User();
+			savedUser.setId(id);
+			savedUser.setLogin(user.getLogin());
+			savedUser.setPassword(user.getPassword());
+			savedUser.setFirstName(user.getFirstName());
+			savedUser.setLastName(user.getLastName());
+			return savedUser;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		throw new RuntimeException(String.format("User with login %s and password %s was not created", user.getLogin(), user.getPassword()));
+		throw new RuntimeException(String
+				.format("User with login %s and password %s was not created", user.getLogin(), user.getPassword()));
 	}
 	
-	public static User update (User user) {
-		if(isNull(user.getId())) {
+	public static User update(User user) {
+		if (isNull(user.getId())) {
 			throw new RuntimeException("id is null, update is impossible");
 		}
 		String sql = "" +
@@ -65,20 +67,20 @@ public class UserDAO {
 			preparedStatement.setString(4, user.getLastName());
 			preparedStatement.setInt(5, user.getId());
 			preparedStatement.executeUpdate();
-			return User.builder()
-					.id(user.getId())
-					.login(user.getLogin())
-					.password(user.getPassword())
-					.firstName(user.getFirstName())
-					.lastName(user.getLastName())
-					.build();
+			User savedUser = new User();
+			savedUser.setId(user.getId());
+			savedUser.setLogin(user.getLogin());
+			savedUser.setPassword(user.getPassword());
+			savedUser.setFirstName(user.getFirstName());
+			savedUser.setLastName(user.getLastName());
+			return savedUser;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		throw new RuntimeException(String.format("User with id %d was not updated", user.getId()));
 	}
 	
-	public static Optional<User> findUserById (Integer id) {
+	public static Optional<User> findUserById(Integer id) {
 		String sql = "" +
 				"SELECT * FROM users " +
 				"WHERE id=?";
@@ -90,13 +92,12 @@ public class UserDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-				User user = User.builder()
-						.id(resultSet.getInt("id"))
-						.login(resultSet.getString("login"))
-						.password(resultSet.getString("password"))
-						.firstName(resultSet.getString("first_name"))
-						.lastName(resultSet.getString("last_name"))
-						.build();
+				User user = new User();
+				user.setId(resultSet.getInt("id"));
+				user.setLogin(resultSet.getString("login"));
+				user.setPassword(resultSet.getString("password"));
+				user.setFirstName(resultSet.getString("first_name"));
+				user.setLastName(resultSet.getString("last_name"));
 				return Optional.of(user);
 			}
 		} catch (SQLException e) {
@@ -105,8 +106,8 @@ public class UserDAO {
 		return Optional.empty();
 	}
 	
-	public static void delete (Integer id) {
-		if(isNull(id)) {
+	public static void delete(Integer id) {
+		if (isNull(id)) {
 			throw new RuntimeException("id is null, delete is impossible");
 		}
 		String sql = "DELETE " +

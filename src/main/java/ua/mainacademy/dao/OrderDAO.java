@@ -33,20 +33,21 @@ public class OrderDAO {
 			while (resultSet.next()) {
 				id = resultSet.getInt(1);
 			}
-			return Order.builder()
-					.id(id)
-					.itemId(order.getItemId())
-					.amount(order.getAmount())
-					.cartId(order.getCartId())
-					.build();
+			Order savedOrder = new Order();
+			savedOrder.setId(id);
+			savedOrder.setItemId(order.getItemId());
+			savedOrder.setAmount(order.getAmount());
+			savedOrder.setCartId(order.getCartId());
+			return savedOrder;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		throw new RuntimeException(String.format("Order with cartId %d was not created", order.getCartId()));
 	}
 	
-	public static Order update (Order order) {
-		if(isNull(order.getId())) {
+	public static Order update(Order order) {
+		if (isNull(order.getId())) {
 			throw new RuntimeException("id is null, update is impossible");
 		}
 		String sql = "" +
@@ -62,19 +63,19 @@ public class OrderDAO {
 			preparedStatement.setInt(3, order.getCartId());
 			preparedStatement.setInt(4, order.getId());
 			preparedStatement.executeUpdate();
-			return Order.builder()
-					.id(order.getId())
-					.itemId(order.getItemId())
-					.amount(order.getAmount())
-					.cartId(order.getCartId())
-					.build();
+			Order savedOrder = new Order();
+			savedOrder.setId(order.getId());
+			savedOrder.setItemId(order.getItemId());
+			savedOrder.setAmount(order.getAmount());
+			savedOrder.setCartId(order.getCartId());
+			return savedOrder;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		throw new RuntimeException(String.format("Order with id %d was not updated", order.getId()));
 	}
 	
-	public static Optional<Order> findOrderById (Integer id) {
+	public static Optional<Order> findOrderById(Integer id) {
 		String sql = "" +
 				"SELECT * FROM orders " +
 				"WHERE id=?";
@@ -86,12 +87,11 @@ public class OrderDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-				Order order = Order.builder()
-						.id(resultSet.getInt("id"))
-						.itemId(resultSet.getInt("item_id"))
-						.amount(resultSet.getInt("amount"))
-						.cartId(resultSet.getInt("cart_id"))
-						.build();
+				Order order = new Order();
+				order.setId(resultSet.getInt("id"));
+				order.setItemId(resultSet.getInt("item_id"));
+				order.setAmount(resultSet.getInt("amount"));
+				order.setCartId(resultSet.getInt("cart_id"));
 				return Optional.of(order);
 			}
 		} catch (SQLException e) {
@@ -100,8 +100,8 @@ public class OrderDAO {
 		return Optional.empty();
 	}
 	
-	public static void delete (Integer id) {
-		if(isNull(id)) {
+	public static void delete(Integer id) {
+		if (isNull(id)) {
 			throw new RuntimeException("id is null, delete is impossible");
 		}
 		String sql = "DELETE " +

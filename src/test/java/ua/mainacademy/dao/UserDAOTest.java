@@ -28,12 +28,11 @@ class UserDAOTest {
 	
 	@Test
 	void findUserById() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User savedUser = UserDAO.create(testUser);
 		users.add(savedUser);
 		Optional<User> foundUser = UserDAO.findUserById(savedUser.getId());
@@ -42,12 +41,11 @@ class UserDAOTest {
 	
 	@Test
 	void create() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("3testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User createdUser = UserDAO.create(testUser);
 		users.add(createdUser);
 		assertNotNull(createdUser.getId());
@@ -56,21 +54,19 @@ class UserDAOTest {
 	
 	@Test
 	void update() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User savedUser = UserDAO.create(testUser);
 		users.add(savedUser);
-		User readyForUpdate = User.builder()
-				.id(savedUser.getId())
-				.login("newLogin")
-				.password("newPassword")
-				.firstName("newFirstName")
-				.lastName("newLastName")
-				.build();
+		User readyForUpdate = new User();
+		readyForUpdate.setId(savedUser.getId());
+		readyForUpdate.setLogin("newLogin");
+		readyForUpdate.setPassword("newPassword");
+		readyForUpdate.setFirstName("newFirstName");
+		readyForUpdate.setLastName("newLastName");
 		User updatedUser = UserDAO.update(readyForUpdate);
 		users.add(updatedUser);
 		Optional<User> foundUser = UserDAO.findUserById(updatedUser.getId());
@@ -84,13 +80,12 @@ class UserDAOTest {
 	
 	@Test
 	void delete() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.id(100)
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
+		testUser.setId(100);
 		User savedUser = UserDAO.create(testUser);
 		Optional<User> foundUser = UserDAO.findUserById(savedUser.getId());
 		assertTrue(foundUser.isPresent());

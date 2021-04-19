@@ -33,20 +33,21 @@ public class CartDAO {
 			while (resultSet.next()) {
 				id = resultSet.getInt(1);
 			}
-			return Cart.builder()
-					.id(id)
-					.creationTime(cart.getCreationTime())
-					.userId(cart.getUserId())
-					.status(cart.getStatus())
-					.build();
+			Cart savedCart = new Cart();
+			savedCart.setId(id);
+			savedCart.setCreationTime(cart.getCreationTime());
+			savedCart.setUserId(cart.getUserId());
+			savedCart.setStatus(cart.getStatus());
+			return savedCart;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		throw new RuntimeException(String.format("Cart with userId %d was not created", cart.getUserId()));
 	}
 	
-	public static Cart update (Cart cart) {
-		if(isNull(cart.getId())) {
+	public static Cart update(Cart cart) {
+		if (isNull(cart.getId())) {
 			throw new RuntimeException("id is null, update is impossible");
 		}
 		String sql = "" +
@@ -62,19 +63,19 @@ public class CartDAO {
 			preparedStatement.setInt(3, cart.getStatus().ordinal());
 			preparedStatement.setInt(4, cart.getId());
 			preparedStatement.executeUpdate();
-			return Cart.builder()
-					.id(cart.getId())
-					.creationTime(cart.getCreationTime())
-					.userId(cart.getUserId())
-					.status(cart.getStatus())
-					.build();
+			Cart savedCart = new Cart();
+			savedCart.setId(cart.getId());
+			savedCart.setCreationTime(cart.getCreationTime());
+			savedCart.setUserId(cart.getUserId());
+			savedCart.setStatus(cart.getStatus());
+			return savedCart;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		throw new RuntimeException(String.format("Cart with id %d was not updated", cart.getId()));
 	}
 	
-	public static Optional<Cart> findCartById (Integer id) {
+	public static Optional<Cart> findCartById(Integer id) {
 		String sql = "" +
 				"SELECT * FROM carts " +
 				"WHERE id=?";
@@ -86,12 +87,11 @@ public class CartDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-				Cart cart = Cart.builder()
-						.id(resultSet.getInt("id"))
-						.creationTime(resultSet.getLong("creation_time"))
-						.userId(resultSet.getInt("user_id"))
-						.status(Cart.Status.values()[resultSet.getInt("status")])
-						.build();
+				Cart cart = new Cart();
+				cart.setId(resultSet.getInt("id"));
+				cart.setCreationTime(resultSet.getLong("creation_time"));
+				cart.setUserId(resultSet.getInt("user_id"));
+				cart.setStatus(Cart.Status.values()[resultSet.getInt("status")]);
 				return Optional.of(cart);
 			}
 		} catch (SQLException e) {
@@ -100,8 +100,8 @@ public class CartDAO {
 		return Optional.empty();
 	}
 	
-	public static void delete (Integer id) {
-		if(isNull(id)) {
+	public static void delete(Integer id) {
+		if (isNull(id)) {
 			throw new RuntimeException("id is null, delete is impossible");
 		}
 		String sql = "DELETE " +

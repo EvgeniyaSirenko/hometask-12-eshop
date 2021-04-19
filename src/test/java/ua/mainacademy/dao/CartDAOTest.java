@@ -32,19 +32,17 @@ class CartDAOTest {
 	
 	@Test
 	void findCartById() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User savedUser = UserDAO.create(testUser);
 		users.add(savedUser);
-		Cart testCart = Cart.builder()
-				.userId(savedUser.getId())
-				.creationTime(1L)
-				.status(Cart.Status.OPEN)
-				.build();
+		Cart testCart = new Cart();
+		testCart.setUserId(savedUser.getId());
+		testCart.setCreationTime(1L);
+		testCart.setStatus(Cart.Status.OPEN);
 		Cart savedCart = CartDAO.create(testCart);
 		carts.add(savedCart);
 		Optional<Cart> foundCart = CartDAO.findCartById(savedCart.getId());
@@ -53,19 +51,17 @@ class CartDAOTest {
 	
 	@Test
 	void create() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User savedUser = UserDAO.create(testUser);
 		users.add(savedUser);
-		Cart testCart = Cart.builder()
-				.userId(savedUser.getId())
-				.creationTime(1L)
-				.status(Cart.Status.OPEN)
-				.build();
+		Cart testCart = new Cart();
+		testCart.setUserId(savedUser.getId());
+		testCart.setCreationTime(1L);
+		testCart.setStatus(Cart.Status.OPEN);
 		Cart createdCart = CartDAO.create(testCart);
 		carts.add(createdCart);
 		assertNotNull(createdCart.getId());
@@ -74,35 +70,31 @@ class CartDAOTest {
 	
 	@Test
 	void update() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User savedUser = UserDAO.create(testUser);
 		users.add(savedUser);
-		Cart testCart = Cart.builder()
-				.userId(savedUser.getId())
-				.creationTime(1L)
-				.status(Cart.Status.OPEN)
-				.build();
+		Cart testCart = new Cart();
+		testCart.setUserId(savedUser.getId());
+		testCart.setCreationTime(1L);
+		testCart.setStatus(Cart.Status.OPEN);
 		Cart savedCart = CartDAO.create(testCart);
 		carts.add(savedCart);
-		User updateUser = User.builder()
-				.login("updateLogin")
-				.password("updatePassword")
-				.firstName("updateFirstName")
-				.lastName("updateLastName")
-				.build();
+		User updateUser = new User();
+		updateUser.setLogin("updateLogin");
+		updateUser.setPassword("updatePassword");
+		updateUser.setFirstName("updateFirstName");
+		updateUser.setLastName("updateLastName");
 		User readyForUpdatedUser = UserDAO.create(updateUser);
 		users.add(readyForUpdatedUser);
-		Cart readyForUpdate = Cart.builder()
-				.id(savedCart.getId())
-				.userId(readyForUpdatedUser.getId())
-				.creationTime(2L)
-				.status(Cart.Status.CLOSED)
-				.build();
+		Cart readyForUpdate = new Cart();
+		readyForUpdate.setId(savedCart.getId());
+		readyForUpdate.setUserId(readyForUpdatedUser.getId());
+		readyForUpdate.setCreationTime(2L);
+		readyForUpdate.setStatus(Cart.Status.CLOSED);
 		Cart updatedCart = CartDAO.update(readyForUpdate);
 		Optional<Cart> foundCart = CartDAO.findCartById(updatedCart.getId());
 		if (foundCart.isPresent()) {
@@ -115,19 +107,17 @@ class CartDAOTest {
 	
 	@Test
 	void delete() {
-		User testUser = User.builder()
-				.login("testLogin")
-				.password("testPassword")
-				.firstName("testFirstName")
-				.lastName("testLastName")
-				.build();
+		User testUser = new User();
+		testUser.setLogin("testLogin");
+		testUser.setPassword("testPassword");
+		testUser.setFirstName("testFirstName");
+		testUser.setLastName("testLastName");
 		User savedUser = UserDAO.create(testUser);
 		users.add(savedUser);
-		Cart testCart = Cart.builder()
-				.userId(savedUser.getId())
-				.creationTime(1L)
-				.status(Cart.Status.OPEN)
-				.build();
+		Cart testCart = new Cart();
+		testCart.setUserId(savedUser.getId());
+		testCart.setCreationTime(1L);
+		testCart.setStatus(Cart.Status.OPEN);
 		Cart savedCart = CartDAO.create(testCart);
 		Optional<Cart> foundCart = CartDAO.findCartById(savedCart.getId());
 		assertTrue(foundCart.isPresent());

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ua.mainacademy.model.Cart;
 import ua.mainacademy.model.Item;
 
 import java.util.ArrayList;
@@ -28,12 +29,12 @@ class ItemDAOTest {
 	
 	@Test
 	void findItemById() {
-		Item testItem = Item.builder()
-				.name("testName")
-				.itemCode("111111")
-				.price(11)
-				.initPrice(11)
-				.build();
+		Item testItem = new Item();
+		testItem.setName("testName");
+		testItem.setItemCode("11111");
+		testItem.setPrice(5);
+		testItem.setInitPrice(11);
+		//testItem.setId(100);
 		Item savedItem = ItemDAO.create(testItem);
 		items.add(savedItem);
 		Optional<Item> foundItem = ItemDAO.findItemById(savedItem.getId());
@@ -42,12 +43,12 @@ class ItemDAOTest {
 	
 	@Test
 	void create() {
-		Item testItem = Item.builder()
-				.name("testName")
-				.itemCode("111111")
-				.price(11)
-				.initPrice(11)
-				.build();
+		Item testItem = new Item();
+		testItem.setName("testName");
+		testItem.setItemCode("11111");
+		testItem.setPrice(5);
+		testItem.setInitPrice(11);
+		testItem.setId(100);
 		Item createdItem = ItemDAO.create(testItem);
 		items.add(createdItem);
 		assertNotNull(createdItem.getId());
@@ -56,21 +57,20 @@ class ItemDAOTest {
 	
 	@Test
 	void update() {
-		Item testItem = Item.builder()
-				.name("testName")
-				.itemCode("111111")
-				.price(5)
-				.initPrice(11)
-				.build();
+		Item testItem = new Item();
+		testItem.setName("testName");
+		testItem.setItemCode("11111");
+		testItem.setPrice(5);
+		testItem.setInitPrice(11);
+		testItem.setId(100);
 		Item savedItem = ItemDAO.create(testItem);
 		items.add(savedItem);
-		Item readyForUpdate = Item.builder()
-				.id(savedItem.getId())
-				.name("updatedName")
-				.itemCode("111222")
-				.price(6)
-				.initPrice(11)
-				.build();
+		Item readyForUpdate = new Item();
+		readyForUpdate.setId(savedItem.getId());
+		readyForUpdate.setName("updatedName");
+		readyForUpdate.setItemCode("111222");
+		readyForUpdate.setPrice(6);
+		readyForUpdate.setInitPrice(11);
 		Item updatedItem = ItemDAO.update(readyForUpdate);
 		items.add(updatedItem);
 		Optional<Item> foundItem = ItemDAO.findItemById(updatedItem.getId());
@@ -84,13 +84,12 @@ class ItemDAOTest {
 	
 	@Test
 	void delete() {
-		Item testItem = Item.builder()
-				.name("testName")
-				.itemCode("11111")
-				.price(5)
-				.initPrice(11)
-				.id(100)
-				.build();
+		Item testItem = new Item();
+		testItem.setName("testName");
+		testItem.setItemCode("11111");
+		testItem.setPrice(5);
+		testItem.setInitPrice(11);
+		testItem.setId(100);
 		Item savedItem = ItemDAO.create(testItem);
 		Optional<Item> foundItem = ItemDAO.findItemById(savedItem.getId());
 		assertTrue(foundItem.isPresent());
