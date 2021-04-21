@@ -44,7 +44,6 @@ class OrderDAOTest {
 		testItem.setItemCode("11111");
 		testItem.setPrice(5);
 		testItem.setInitPrice(11);
-		testItem.setId(100);
 		Item savedItem = ItemDAO.create(testItem);
 		items.add(savedItem);
 		User testUser = new User();
@@ -77,7 +76,6 @@ class OrderDAOTest {
 		testItem.setItemCode("11111");
 		testItem.setPrice(5);
 		testItem.setInitPrice(11);
-		testItem.setId(100);
 		Item savedItem = ItemDAO.create(testItem);
 		items.add(savedItem);
 		User testUser = new User();

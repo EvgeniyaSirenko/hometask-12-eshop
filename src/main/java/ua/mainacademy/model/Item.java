@@ -58,4 +58,15 @@ public class Item {
 	
 	public Item() {
 	}
+	
+	@Override
+	public String toString() {
+		return "Item{" +
+				"id=" + getId() +
+				", itemCode='" + itemCode + '\'' +
+				", name='" + name + '\'' +
+				", price=" + price +
+				", initPrice=" + initPrice +
+				'}';
+	}
 }
